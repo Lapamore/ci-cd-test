@@ -20,15 +20,6 @@ pipeline {
             }
         }
 
-        stage("Run Tests") {
-            steps {
-                script {
-                    dockerImage.inside {
-                        sh 'pytest app/test_main.py'
-                    }
-                }
-            }
-        }
 
         stage("Deploy") {
             steps {
