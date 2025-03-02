@@ -17,11 +17,11 @@ pipeline {
         stage("Test") {
             steps {
                 script {
-                    docker.image("my-devops-project").inside("--workdir /workspace -v ${WORKSPACE}:/workspace") {
+                    docker.image("my-devops-project").inside("-w /app") {
                         sh "python -m unittest test_app.py"
                     }
                 }
-            }          
+            }
         }
 
         stage("Deploy") {
