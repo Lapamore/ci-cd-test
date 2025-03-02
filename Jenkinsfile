@@ -3,7 +3,9 @@ pipeline {
 
     stages {
         stage("Checkout") {
-            git 'https://github.com/Lapamore/ci-cd-test.git'
+            steps {
+                git 'https://github.com/Lapamore/ci-cd-test.git'
+            }
         }
         stage("Build") {
             steps {
