@@ -10,9 +10,7 @@ pipeline {
 
         stage("Build") {
             steps {
-                script {
-                    sh 'docker build -t my-devops-project .'
-                } 
+                bat 'docker build -t my-devops-project .'       
             }   
         }
 
