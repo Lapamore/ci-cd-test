@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     docker.image("my-devops-project").inside {
-                        sh 'python -m unittest test_app.py'
+                        sh 'python3 -m unittest test_app.py'
                     }
                 }
             }
