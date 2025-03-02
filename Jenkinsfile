@@ -17,7 +17,7 @@ pipeline {
         stage("Test") {
             steps {
                 script {
-                    docker.image("my-devops-project").inside {
+                    docker.image("my-devops-project").inside("--workdir /workspace -v ${WORKSPACE}:/workspace") {
                         sh "python -m unittest test_app.py"
                     }
                 }
