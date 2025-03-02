@@ -22,7 +22,7 @@ pipeline {
 
         stage("Run Tests") {
             steps {
-                sh 'pytest app/test_main.py'
+                cmd 'pytest app/test_main.py'
             }
         }
 
