@@ -16,7 +16,11 @@ pipeline {
 
         stage("Test") {
             steps {
-                echo "Test successed!"
+                script {
+                    docker.image("my-devops-project").inside {
+                        sh "python -m unittest test_app.py"
+                    }
+                }
             }          
         }
 
