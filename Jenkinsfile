@@ -10,7 +10,9 @@ pipeline {
 
         stage("Build") {
             steps {
-                sh 'docker build -t my-devops-project .'       
+                script {
+                    def image = docker.build("my-devops-project")
+                }  
             }   
         }
 
