@@ -10,13 +10,17 @@ pipeline {
 
         stage("Build") {
             steps {
-                bat 'docker build -t my-devops-project .'       
+                sh 'docker build -t my-devops-project .'       
             }   
         }
 
-        stage("Test") {
+        stage('Run Tests') {
             steps {
-                bat "python -m unittest test_app.py"
+                script {
+                    docker.image("my-devops-project").inside {
+                        sh 'python -m unittest test_app.py'
+                    }
+                }
             }
         }
 
