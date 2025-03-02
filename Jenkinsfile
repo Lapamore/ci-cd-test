@@ -17,8 +17,9 @@ pipeline {
         stage("Test") {
             steps {
                 script {
-                    // Исправленный блок: монтируем директорию и задаем рабочую папку
-                    docker.image("my-devops-project").inside("-v ${WORKSPACE}:/workspace -w /workspace") {
+                    // Используем абсолютный путь в формате WSL2
+                    def workspace = WORKSPACE.replace('\\', '/').replace(':', '')
+                    docker.image("my-devops-project").inside("-v /${workspace}:/workspace -w /workspace") {
                         sh "python -m unittest test_app.py"
                     }
                 }
