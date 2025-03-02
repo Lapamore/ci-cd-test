@@ -22,14 +22,18 @@ pipeline {
 
         stage("Run Tests") {
             steps {
-                cmd 'pytest app/test_main.py'
+                script {
+                    dockerImage.inside {
+                        sh 'pytest app/test_main.py'
+                    }
+                }
             }
         }
 
         stage("Deploy") {
             steps {
                 script {
-                    sh "docker run -d -p 5000:5000 ${IMAGE_NAME}:${env.BUILD_ID}"
+                    sh "docker run -d -p 5000:5000 --name ${IMAGE_NAME}-${env.BUILD_ID} ${IMAGE_NAME}:${env.BUILD_ID}"
                 }
             }
         }
