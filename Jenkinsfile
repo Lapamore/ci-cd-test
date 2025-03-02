@@ -20,11 +20,12 @@ pipeline {
             steps {
                 script {
                     docker.image("my-devops-project").inside {
-                        sh 'python3 -m unittest test_app.py'
+                        sh 'PYTHONPATH=/app python3 -m unittest app/test_app.py'
                     }
                 }
             }
         }
+
 
         stage("Deploy") {
             steps {
