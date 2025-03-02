@@ -7,10 +7,12 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Lapamore/ci-cd-test.git'
             }
         }
-        
+
         stage("Build") {
             steps {
-                echo "Build successed!"
+                script {
+                    sh 'docker build -t my-devops-project .'
+                } 
             }   
         }
 
