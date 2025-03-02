@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        IMAGE_NAME = "flask-ci-cd"
-    }
-
     stages {
         stage("Checkout") {
             steps {
@@ -12,28 +8,38 @@ pipeline {
             }
         }
 
-        stage("Build Docker Image") {
+        stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_NAME}:${env.BUILD_ID}")
-                }      
+                    // Строим Docker-образ с тегом, основанным на BUILD_ID
+                    dockerImage = docker.build("my-flask-app:${env.BUILD_ID}")
+                }
             }
         }
 
-
-        stage("Deploy") {
+        stage('Run Tests') {
             steps {
                 script {
-                    sh "docker run -d -p 5000:5000 --name ${IMAGE_NAME}-${env.BUILD_ID} ${IMAGE_NAME}:${env.BUILD_ID}"
+                    // Запускаем контейнер и выполняем тесты внутри него
+                    dockerImage.inside("-p 5000:5000") {
+                        sh 'pytest'
+                    }
                 }
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deployment stage (здесь можно добавить шаги деплоя)'
+                // Добавьте необходимые команды для деплоя
             }
         }
     }
 
     post {
         always {
-            sh 'docker system prune -f'
+            // Очистка рабочего пространства после сборки
+            cleanWs()
         }
     }
-
 }
